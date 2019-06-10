@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="listar_livro" type="id"/>
+    <item name="inserir_livro" type="id"/>
+    <item name="listar_Autores" type="id"/>
+    <item name="inserir_autor" type="id"/>
+    <item name="Inicio" type="id"/>
+    <item name="Sair" type="id"/>
+    <item name="nav_inserirLivros" type="id"/>
+    <item name="nav_listarLivros" type="id"/>
+    <item name="nav_inserirAutores" type="id"/>
+    <item name="nav_listarAutores" type="id"/>
+    <item name="nav_inicio" type="id"/>
+    <item name="nav_sair" type="id"/>
+    <item name="button2" type="id"/>
+    <item name="button3" type="id"/>
+    <item name="toast_layout_root" type="id"/>
+    <item name="texto" type="id"/>
+</resources>
