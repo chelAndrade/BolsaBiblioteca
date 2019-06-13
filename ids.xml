@@ -16,4 +16,6 @@
     <item name="button3" type="id"/>
     <item name="toast_layout_root" type="id"/>
     <item name="texto" type="id"/>
+    <item name="alerta1" type="id"/>
+    <item name="alerta" type="id"/>
 </resources>

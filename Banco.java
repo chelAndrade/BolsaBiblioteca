@@ -24,7 +24,7 @@ import static android.app.Activity.RESULT_OK;
 public class Banco extends SQLiteOpenHelper {
     private SQLiteDatabase db;
 
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 9 ;
     public static final String DATABASE_NAME = "Biblioteca.db";
     private String id;
     private Cursor cursor;
@@ -62,7 +62,6 @@ public class Banco extends SQLiteOpenHelper {
             return false;
         }
     }
-
     public Cursor atualizaLivro() {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
@@ -203,7 +202,7 @@ public class Banco extends SQLiteOpenHelper {
 
     public Cursor carregaDadoByIdAutor(String id) {
         Cursor cursor;
-        String[] campos = {BancoContract.Autor._ID,BancoContract.Autor.COLUMN_NAME_NOME};
+        String[] campos = {BancoContract.Autor._ID, BancoContract.Autor.COLUMN_NAME_NOME};
         String where = BancoContract.Autor._ID + "=" + id;
         db = this.getWritableDatabase();
         cursor = db.query(BancoContract.Autor.TABLE_NAME, campos, where, null, null, null, null, null);
@@ -240,9 +239,12 @@ public class Banco extends SQLiteOpenHelper {
         db = this.getWritableDatabase();
         db.delete(BancoContract.Livro.TABLE_NAME, where, null);
         db.close();
+        select titulo,id from autor where id= 4
+        select tituloautor from livro where titulo = tituloautor
+        tituloautor = null return true 7
     }*/
 
-    public int alteraTitulo(int id, String titulo,String editora,String autor,String ano) {
+    public int alteraTitulo(int id, String titulo, String editora, String autor, String ano) {
         ContentValues values;
         String where;
 
@@ -254,9 +256,9 @@ public class Banco extends SQLiteOpenHelper {
 
         values = new ContentValues();
         values.put(BancoContract.Livro.COLUMN_NAME_TITULO, titulo);
-        values.put(BancoContract.Livro.COLUMN_NAME_EDITORA, editora );
+        values.put(BancoContract.Livro.COLUMN_NAME_EDITORA, editora);
         values.put(BancoContract.Livro.COLUMN_NAME_AUTOR, autor);
-        values.put(BancoContract.Livro.COLUMN_NAME_ANO,ano);
+        values.put(BancoContract.Livro.COLUMN_NAME_ANO, ano);
 
 
         int r = db.update(BancoContract.Livro.TABLE_NAME, values, where, whereargs);
@@ -264,13 +266,13 @@ public class Banco extends SQLiteOpenHelper {
         return r;
     }
 
-    public int deletaTitulo(int id,String titulo,String editora, String autor,String ano) {
+    public int deletaTitulo(int id, String titulo, String editora, String autor, String ano) {
         String where = BancoContract.Livro._ID + " = " + id;
 
 
         db = this.getWritableDatabase();
         //db = (SQLiteDatabase) BancoContract.getWritableDatabase();
-        int r3 = db.delete(BancoContract.Livro.TABLE_NAME,where,null);
+        int r3 = db.delete(BancoContract.Livro.TABLE_NAME, where, null);
         db.close();
         return r3;
     }
@@ -291,20 +293,62 @@ public class Banco extends SQLiteOpenHelper {
         return r1;
     }
 
-    public int deletaAutor(int id, final String nome) {
+    public boolean ComparaAutor(int id){
+        Cursor cursor;
+        String[] visao = {
+                BancoContract.Autor._ID,
+                BancoContract.Autor.COLUMN_NAME_NOME
+        };
+        String where = BancoContract.Autor._ID + "=" + id;
+        db = this.getWritableDatabase();
+        cursor = db.query(BancoContract.Autor.TABLE_NAME,visao, where,null,null,null,null,null);
+        cursor.moveToFirst();
+        String titulo = cursor.getString(cursor.getColumnIndex(BancoContract.Autor.COLUMN_NAME_NOME));
+
+       String[] visao1 = {
+               BancoContract.Livro._ID,
+               BancoContract.Livro.COLUMN_NAME_AUTOR
+       };
+        String where1 = BancoContract.Livro.COLUMN_NAME_AUTOR + "=?" ;
+        String args []={titulo};
+        db = this.getReadableDatabase();
+        Cursor cursor1 = db.query(BancoContract.Livro.TABLE_NAME,visao1,where1,args,null,null,null);
+        cursor1.moveToFirst();
+        Log.e("Passo:","verifica aqui ");
+
+        if(cursor1.getCount()>0){
+            Log.e("Passo2:","verifica aqui ");
+
+            return false;
+        }
+        else{
+            Log.e("Passo3:","verifica aqui ");
+
+        return true;}
+    }
+    public int deletaAutor(Context context,int id, final String nome) {
+        if(ComparaAutor(id)){
+
+
         String where = BancoContract.Livro._ID + " = " + id;
 
         db = this.getWritableDatabase();
         //db = (SQLiteDatabase) BancoContract.getWritableDatabase();
-        int r3 = db.delete(BancoContract.Autor.TABLE_NAME,where,null);
-        /*if(autor == titulo){
-            Toast toast = Toast.makeText(getApplicationContext(), "Este livro nao pode ser excluido", Toast.LENGTH_SHORT);
+        int r3 = db.delete(BancoContract.Autor.TABLE_NAME, where, null);
+            Toast toast = Toast.makeText(context, "Deletado com sucesso", Toast.LENGTH_SHORT);
             toast.show();
-        }*/
-        db.close();
+
+            db.close();
         return r3;
+        }
+        else{
+            Toast.makeText(context, "Existe livro com esse autor cadastrado", Toast.LENGTH_SHORT).show();
+            return 0;
+        }
+
     }
-    
+
+
 
 }
 

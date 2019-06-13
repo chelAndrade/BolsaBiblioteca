@@ -121,10 +121,8 @@ public class MenuAutor extends AppCompatActivity {
                 public void onClick(View v) {
                     String Nome = nome.getText().toString();
 
-                    BancoDbHelper.deletaAutor(Integer.parseInt(codigo), Nome);
+                    BancoDbHelper.deletaAutor(getApplicationContext(),Integer.parseInt(codigo), Nome);
                     Log.e("codigo:", codigo);
-                    Toast toast = Toast.makeText(getApplicationContext(), "Deletado com sucesso", Toast.LENGTH_SHORT);
-                    toast.show();
                     Intent i = new Intent(MenuAutor.this, ListarAutor.class);
                     startActivity(i);
                 }

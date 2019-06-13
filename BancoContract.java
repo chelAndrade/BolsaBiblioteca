@@ -12,6 +12,10 @@ public class BancoContract {
             Livro.COLUMN_NAME_AUTOR + TEXT_TYPE + SEP +
             Livro.COLUMN_NAME_EDITORA + TEXT_TYPE + SEP +
             Livro.COLUMN_NAME_ANO + TEXT_TYPE + ")";
+
+            //Livro."CONSTRAINT fk_LivAutor FOREIGN KEY  (ID_Autor) REFERENCES Livro.ID_Autor)";
+
+
     public static final String SQL_DROP_LIVRO = "DROP TABLE IF EXISTS " + Livro.TABLE_NAME;
 
     public static final String SQL_CREATE_AUTOR = "CREATE TABLE " + BancoContract.Autor.TABLE_NAME + " (" +
